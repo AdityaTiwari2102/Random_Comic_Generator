@@ -5,30 +5,22 @@
 <p>Click the button to display a random number.</p>
 
 <button type="button" onclick="loadDoc()">Generate</button>
-<p id="demo"></p>
 <img src="asd" id="pic">
 <script>
-    
     function loadDoc() {
-      
         let rand_no=Math.floor((Math.random()*999)+1);
-        
         let url = 'https://xkcd.now.sh/';
         let endpoint = url+rand_no;
-        
         var xhttp = new XMLHttpRequest();
-      
         xhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                var xyz = JSON.parse(this.responseText);
-                document.getElementById('pic').src=xyz.img;
-            }
-        };
-        xhttp.open("GET", endpoint, true);
-        xhttp.send();
+        if (this.readyState == 4 && this.status == 200) {
+            var xyz = JSON.parse(this.responseText);
+            document.getElementById('pic').src=xyz.img;
+        }
+    };
+    xhttp.open("GET", endpoint, true);
+    xhttp.send();
 }
-    
 </script>
-
 </body>
 </html>
