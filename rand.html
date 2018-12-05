@@ -22,13 +22,11 @@
     <script>
         function loadDoc() {
             var arr = [];
-            var i=0;
             let rand_no;
             while(arr.length < 999){
                 rand_no = Math.floor((Math.random()*999)+1);
                 if(arr.indexOf(rand_no) === -1){
                     arr.push(rand_no);
-                    i++;
                 }
             }
             let url = 'https://xkcd.now.sh/';
