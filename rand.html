@@ -1,24 +1,48 @@
 <!DOCTYPE html>
 <html>
+    <head>
+        <style>
+            *{
+                box-sizing: border-box;
+            }
+            div{
+                text-align: center;
+            }
+            img{
+                padding: 30px;
+            }
+        </style>
+    </head>
 <body>
-<p>Click the button to display a random number.</p>
-<button type="button" onclick="loadDoc()">Generate</button>
-<img src="asd" id="pic">
-<script>
-    function loadDoc() {
-        let rand_no=Math.floor((Math.random()*999)+1);
-        let url = 'https://xkcd.now.sh/';
-        let endpoint = url+rand_no;
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            var xyz = JSON.parse(this.responseText);
-            document.getElementById('pic').src=xyz.img;
+    <div>
+        <p>Click the button to display a random comic strip.</p>
+        <button type="button" onclick="loadDoc()">Generate</button><br>
+        <img src="https://via.placeholder.com/200x200" id="pic">
+    </div>
+    <script>
+        function loadDoc() {
+            var arr = [];
+            var i=0;
+            let rand_no;
+            while(arr.length < 999){
+                rand_no = Math.floor((Math.random()*999)+1);
+                if(arr.indexOf(rand_no) === -1){
+                    arr.push(rand_no);
+                    i++;
+                }
+            }
+            let url = 'https://xkcd.now.sh/';
+            let endpoint = url+rand_no;
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var xyz = JSON.parse(this.responseText);
+                    document.getElementById('pic').src=xyz.img;
+                }
+            };
+            xhttp.open("GET", endpoint, true);
+            xhttp.send();
         }
-    };
-    xhttp.open("GET", endpoint, true);
-    xhttp.send();
-}
-</script>
+    </script>
 </body>
 </html>
