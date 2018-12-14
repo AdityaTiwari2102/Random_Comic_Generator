@@ -94,142 +94,143 @@
             }
         </style>
     </head>
-<body>
-    <header class="navbar">
-        <img src="logo.jpg" alt="logo">
-        <button type="button" onclick="generatePage()">Generate</button>
-        <button type="button" onclick="archivePage()">Archive</button>
-    </header>
-    <div class="btn-generate">
-        <!--<p>Click the button to display a random comic strip.</p>-->
-        <button type="button" onclick="loadDoc()" class="btn-primary" id="abc">Generate</button><br>
-    </div>
-    <div class="image" id="comic">
-        <div class="cName">
-            <p id="title"></p>
+    <body>
+        <header class="navbar">
+            <img src="logo.jpg" alt="logo">
+            <button type="button" onclick="generatePage()">Generate</button>
+            <button type="button" onclick="archivePage()">Archive</button>
+        </header>
+        <div class="btn-generate" id="abc">
+            <!--<p>Click the button to display a random comic strip.</p>-->
+            <button type="button" onclick="loadDoc()" class="btn-primary">Generate</button><br>
         </div>
-        <div class="cImage">
-            <img src="https://via.placeholder.com/200x200" id="pic">
+        <div class="image" id="comic">
+            <div class="cName">
+                <p id="title"></p>
+            </div>
+            <div class="cImage">
+                <img src="https://via.placeholder.com/200x200" id="pic">
+            </div>
         </div>
-    </div>
-    <div class="archivePage" id="archive">
-        <!--<div class="block">
-            <div class="cTitle">
-                <p></p>
-            </div>
-            <div class="viewed">
-                <p>Last Viewed:</p><br>
-                <p></p><br>
-                <p></p>
-            </div>
-        </div>-->
-    </div>
-    <script>
-        document.getElementById('archive').style.display="none";
-        var rand_no;
-        var url;
-        var count = 0;
-        var rowCount = 0;
-        var val = new Array();
-        var timeVal = new Array();
-        var dateVal = new Array();
-        var month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-        var key = JSON.parse(localStorage.getItem("randomNumber")) || [];
-        var comicDate = JSON.parse(localStorage.getItem("comicDate")) || [];
-        var comicTime = JSON.parse(localStorage.getItem("comicTime")) || [];
-        function loadDoc() {
-            rand_no = Math.floor((Math.random()*999)+1);
-            check(rand_no);
-            count = 1;
-        }
-        function check(rand_no){
-            if(count == 1){
+        <div class="archivePage" id="archive">
+            <!--<div class="block">
+                <div class="cTitle">
+                    <p></p>
+                </div>
+                <div class="viewed">
+                    <p>Last Viewed:</p><br>
+                    <p></p><br>
+                    <p></p>
+                </div>
+            </div>-->
+        </div>
+        <script>
+            document.getElementById('archive').style.display="none";
+            var rand_no;
+            var url;
+            var count = 0;
+            var rowCount = 0;
+            var val = new Array();
+            var timeVal = new Array();
+            var dateVal = new Array();
+            var month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            var key = JSON.parse(localStorage.getItem("randomNumber")) || [];
+            var comicDate = JSON.parse(localStorage.getItem("comicDate")) || [];
+            var comicTime = JSON.parse(localStorage.getItem("comicTime")) || [];
+            function loadDoc() {
+                rand_no = Math.floor((Math.random()*999)+1);
+                check(rand_no);
+                count = 1;
+            }
+            function check(rand_no){
+                if(count == 1){
+                    val = JSON.parse(localStorage.getItem("randomNumber"));
+                    for(var i=0; i<val.length; i++){
+                        var x = val[i];
+                        if(x == rand_no){
+                            loadDoc();
+                            return;
+                        }
+                    }
+                }
+                key.push(rand_no);
+                let index = (key.indexOf(rand_no)+1) + ". COMIC TITLE";
+                localStorage.setItem("randomNumber", JSON.stringify(key));
+                url = "https://xkcd.now.sh/" + rand_no;
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        var xyz = JSON.parse(this.responseText);
+                        document.getElementById("pic").src=xyz.img;
+                    }
+                };
+                document.getElementById("title").innerHTML = index;
+                xhttp.open("GET", url, true);
+                xhttp.send();
+
+                let lastViewed = new Date();
+                let d = lastViewed.getDate();
+                let m = lastViewed.getMonth();
+                let y = lastViewed.getFullYear();
+                let h = lastViewed.getHours();
+                let min = lastViewed.getMinutes();
+                let s = lastViewed.getSeconds();
+                let date = d + " " + month[m] + " " +y;
+                let time = h + ":" + min + ":" + s;
+                comicDate.push(date);
+                comicTime.push(time);
+                localStorage.setItem("comicDate", JSON.stringify(comicDate));
+                localStorage.setItem("comicTime", JSON.stringify(comicTime));
+            }
+
+            function archivePage(){
+                document.getElementById("comic").style.display="none";
+                document.getElementById("abc").style.display="none";
+                document.getElementById("archive").style.display="flex";
                 val = JSON.parse(localStorage.getItem("randomNumber"));
-                for(var i=0; i<val.length; i++){
-                    var x = val[i];
-                    if(x == rand_no){
-                        loadDoc();
-                        return;
+                dateVal = JSON.parse(localStorage.getItem("comicDate"));
+                timeVal = JSON.parse(localStorage.getItem("comicTime"));
+                if(rowCount < val.length){
+                    for(var i=rowCount; i<val.length; i++){
+                        let divElement = document.createElement("div");
+                        let pElement = document.createElement("p");
+                        let cTitle = document.createTextNode((rowCount+1)+""+". Comic Title");
+                        pElement.appendChild(cTitle);
+                        divElement.appendChild(pElement);
+                        pElement.setAttribute('id', rowCount);
+                        divElement.setAttribute('class', 'cTitle');
+                        let details = document.createElement("div");
+                        let p1 = document.createElement("p");
+                        let p2 = document.createElement("p");
+                        let p3 = document.createElement("p");
+                        let text1 = document.createTextNode("Last Viewed:");
+                        let text2 = document.createTextNode(dateVal[rowCount]);
+                        let text3 = document.createTextNode(timeVal[rowCount]);
+                        p1.appendChild(text1);
+                        p2.appendChild(text2);
+                        p3.appendChild(text3);
+                        details.appendChild(p1);
+                        details.appendChild(p2);
+                        details.appendChild(p3);
+                        details.setAttribute('class', 'viewed');
+                        let block = document.createElement("div");
+                        block.appendChild(divElement);
+                        block.appendChild(details);
+                        block.setAttribute('class', 'block');
+                        let archive = document.getElementById('archive');
+                        archive.setAttribute('class','archivePage');
+                        archive.appendChild(block);
+                        rowCount++;
                     }
                 }
             }
-            key.push(rand_no);
-            let index = (key.indexOf(rand_no)+1) + ". COMIC TITLE";
-            localStorage.setItem("randomNumber", JSON.stringify(key));
-            url = "https://xkcd.now.sh/" + rand_no;
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    var xyz = JSON.parse(this.responseText);
-                    document.getElementById("pic").src=xyz.img;
-                }
-            };
-            document.getElementById("title").innerHTML = index;
-            xhttp.open("GET", url, true);
-            xhttp.send();
-            
-            let lastViewed = new Date();
-            let d = lastViewed.getDate();
-            let m = lastViewed.getMonth();
-            let y = lastViewed.getFullYear();
-            let h = lastViewed.getHours();
-            let min = lastViewed.getMinutes();
-            let s = lastViewed.getSeconds();
-            let date = d + " " + month[m] + " " +y;
-            let time = h + ":" + min + ":" + s;
-            comicDate.push(date);
-            comicTime.push(time);
-            localStorage.setItem("comicDate", JSON.stringify(comicDate));
-            localStorage.setItem("comicTime", JSON.stringify(comicTime));
-        }
-        
-        function archivePage(){
-            document.getElementById("comic").style.display="none";
-            document.getElementById("abc").style.display="none";
-            document.getElementById("archive").style.display="flex";
-            val = JSON.parse(localStorage.getItem("randomNumber"));
-            dateVal = JSON.parse(localStorage.getItem("comicDate"));
-            timeVal = JSON.parse(localStorage.getItem("comicTime"));
-            if(rowCount < val.length){
-                for(var i=rowCount; i<val.length; i++){
-                    let divElement = document.createElement("div");
-                    let pElement = document.createElement("p");
-                    let cTitle = document.createTextNode((rowCount+1)+""+". Comic Title");
-                    pElement.appendChild(cTitle);
-                    divElement.appendChild(pElement);
-                    pElement.setAttribute('id', rowCount);
-                    divElement.setAttribute('class', 'cTitle');
-                    let details = document.createElement("div");
-                    let p1 = document.createElement("p");
-                    let p2 = document.createElement("p");
-                    let p3 = document.createElement("p");
-                    let text1 = document.createTextNode("Last Viewed:");
-                    let text2 = document.createTextNode(dateVal[rowCount]);
-                    let text3 = document.createTextNode(timeVal[rowCount]);
-                    p1.appendChild(text1);
-                    p2.appendChild(text2);
-                    p3.appendChild(text3);
-                    details.appendChild(p1);
-                    details.appendChild(p2);
-                    details.appendChild(p3);
-                    details.setAttribute('class', 'viewed');
-                    let block = document.createElement("div");
-                    block.appendChild(divElement);
-                    block.appendChild(details);
-                    block.setAttribute('class', 'block');
-                    let archive = document.getElementById('archive');
-                    archive.setAttribute('class','archivePage');
-                    archive.appendChild(block);
-                    rowCount++;
-                }
+
+            function generatePage(){
+                document.getElementById("comic").style.display="block";
+                document.getElementById("abc").style.display="block";
+                document.getElementById("archive").style.display="none";
             }
-        }
         
-        function generatePage(){
-            document.getElementById("comic").style.cssText="display: block; text-allign: center";
-            document.getElementById("abc").style.display="block";
-            document.getElementById("archive").style.display="none";
-        }
-    </script>
-</body>
+        </script>
+    </body>
 </html>
