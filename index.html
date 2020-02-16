@@ -1,65 +1,65 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Comic Generator</title>
-    </head>
-    <body>
-        <header class="navbar">
-            <img src="logo.jpg" alt="logo">
-            <button type="button" onclick="generatePage()">Generate</button>
-            <button type="button" onclick="archivePage()">Archive</button>
-        </header>
-        <div class="btn-generate" id="abc">
-            <!--<p>Click the button to display a random comic strip.</p>-->
-            <button type="button" onclick="loadDoc()" class="btn-primary">Generate</button><br>
+  <head>
+    <title>Comic Generator</title>
     <link rel="stylesheet" href="styles.css">
     <script src="scripts.js"></script>
+  </head>
+  <body>
+    <header class="navbar">
+      <img src="logo.jpg" alt="logo">
+      <button class="pointer" type="button" onclick="generatePage()">Generate</button>
+      <button class="pointer" type="button" onclick="archivePage()">Archive</button>
+    </header>
+    <div class="btn-generate" id="abc">
+      <!--<p>Click the button to display a random comic strip.</p>-->
+      <button type="button" onclick="loadDoc()" class="btn-primary pointer">Generate</button><br>
+    </div>
+    <div class="multiComic" id="mc">
+      <div class="image" id="comic">
+        <div class="cName">
+          <p id="title1"></p>
         </div>
-        <div class="multiComic" id="mc">
-            <div class="image" id="comic">
-                <div class="cName">
-                    <p id="title1"></p>
-                </div>
-                <div class="cImage">
-                    <img src="https://via.placeholder.com/200x200" id="pic1">
-                </div>
-            </div>
-            <div class="image" id="comic">
-                <div class="cName">
-                    <p id="title2"></p>
-                </div>
-                <div class="cImage">
-                    <img src="https://via.placeholder.com/200x200" id="pic2">
-                </div>
-            </div>
-            <div class="image" id="comic">
-                <div class="cName">
-                    <p id="title3"></p>
-                </div>
-                <div class="cImage">
-                    <img src="https://via.placeholder.com/200x200" id="pic3">
-                </div>
-            </div>
-            <div class="image" id="comic">
-                <div class="cName">
-                    <p id="title4"></p>
-                </div>
-                <div class="cImage">
-                    <img src="https://via.placeholder.com/200x200" id="pic4">
-                </div>
-            </div>
+        <div class="cImage">
+          <img src="https://via.placeholder.com/200x200" id="pic1">
         </div>
-        <div class="archivePage" id="archive">
-            <!--<div class="block">
-                <div class="cTitle">
-                    <p></p>
-                </div>
-                <div class="viewed">
-                    <p>Last Viewed:</p><br>
-                    <p></p><br>
-                    <p></p>
-                </div>
-            </div>-->
+      </div>
+      <div class="image" id="comic">
+        <div class="cName">
+          <p id="title2"></p>
         </div>
-    </body>
+        <div class="cImage">
+          <img src="https://via.placeholder.com/200x200" id="pic2">
+        </div>
+      </div>
+      <div class="image" id="comic">
+        <div class="cName">
+          <p id="title3"></p>
+        </div>
+        <div class="cImage">
+          <img src="https://via.placeholder.com/200x200" id="pic3">
+        </div>
+      </div>
+      <div class="image" id="comic">
+        <div class="cName">
+          <p id="title4"></p>
+        </div>
+        <div class="cImage">
+          <img src="https://via.placeholder.com/200x200" id="pic4">
+        </div>
+      </div>
+    </div>
+    <div class="archivePage" id="archive">
+      <!--<div class="block">
+        <div class="cTitle">
+          <p></p>
+        </div>
+        <div class="viewed">
+          <p>Last Viewed:</p><br>
+          <p></p><br>
+          <p></p>
+        </div>
+      </div>-->
+    </div>
+  </body>
 </html>
